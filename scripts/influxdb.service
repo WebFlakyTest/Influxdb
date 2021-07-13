@@ -8,6 +8,7 @@ After=network-online.target
 [Service]
 User=influxdb
 Group=influxdb
+Type=notify
 LimitNOFILE=65536
 EnvironmentFile=-/etc/default/influxdb2
 ExecStart=/usr/bin/influxd

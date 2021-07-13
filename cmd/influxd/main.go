@@ -6,6 +6,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/coreos/go-systemd/daemon"
+	"github.com/coreos/go-systemd/util"
 	"github.com/influxdata/influxdb/v2"
 	"github.com/influxdata/influxdb/v2/cmd/influxd/inspect"
 	"github.com/influxdata/influxdb/v2/cmd/influxd/launcher"
@@ -52,6 +54,10 @@ func main() {
 	rootCmd.SilenceUsage = true
 	if err := rootCmd.Execute(); err != nil {
 		handleErr(fmt.Sprintf("See '%s -h' for help", rootCmd.CommandPath()))
+	}
+
+	if util.IsRunningSystemd() {
+		daemon.SdNotify(false, daemon.SdNotifyReady)
 	}
 }
 
